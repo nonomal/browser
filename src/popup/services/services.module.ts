@@ -56,6 +56,7 @@ import { PasswordRepromptService } from "./password-reprompt.service";
 import { PopupSearchService } from "./popup-search.service";
 import { PopupUtilsService } from "./popup-utils.service";
 import { UnauthGuardService } from "./unauth-guard.service";
+import { VaultFilterService } from "./vault-filter.service";
 
 const isPrivateMode = BrowserApi.getBackgroundPage() == null;
 const mainBackground: MainBackground = isPrivateMode
@@ -316,6 +317,7 @@ export function initFactory(
       useExisting: StateServiceAbstraction,
       deps: [],
     },
+    { provide: VaultFilterService },
   ],
 })
 export class ServicesModule {}

@@ -1,5 +1,6 @@
 import { A11yModule } from "@angular/cdk/a11y";
 import { DragDropModule } from "@angular/cdk/drag-drop";
+import { OverlayModule } from "@angular/cdk/overlay";
 import { ScrollingModule } from "@angular/cdk/scrolling";
 import { CurrencyPipe, DatePipe, registerLocaleData } from "@angular/common";
 import localeAz from "@angular/common/locales/az";
@@ -76,6 +77,7 @@ import { StopPropDirective } from "jslib-angular/directives/stop-prop.directive"
 import { TrueFalseValueDirective } from "jslib-angular/directives/true-false-value.directive";
 import { ColorPasswordCountPipe } from "jslib-angular/pipes/color-password-count.pipe";
 import { ColorPasswordPipe } from "jslib-angular/pipes/color-password.pipe";
+import { EllipsisPipe } from "jslib-angular/pipes/ellipsis.pipe";
 import { I18nPipe } from "jslib-angular/pipes/i18n.pipe";
 import { SearchCiphersPipe } from "jslib-angular/pipes/search-ciphers.pipe";
 
@@ -127,6 +129,7 @@ import { CurrentTabComponent } from "./vault/current-tab.component";
 import { GroupingsComponent } from "./vault/groupings.component";
 import { PasswordHistoryComponent } from "./vault/password-history.component";
 import { ShareComponent } from "./vault/share.component";
+import { VaultFilterComponent } from "./vault/vault-filter.component";
 import { ViewCustomFieldsComponent } from "./vault/view-custom-fields.component";
 import { ViewComponent } from "./vault/view.component";
 
@@ -193,6 +196,7 @@ registerLocaleData(localeZhTw, "zh-TW");
     ReactiveFormsModule,
     ScrollingModule,
     ServicesModule,
+    OverlayModule,
     BitwardenToastModule.forRoot({
       maxOpened: 2,
       autoDismiss: true,
@@ -230,6 +234,7 @@ registerLocaleData(localeZhTw, "zh-TW");
     HintComponent,
     HomeComponent,
     I18nPipe,
+    EllipsisPipe,
     IconComponent,
     InputVerbatimDirective,
     LockComponent,
@@ -268,6 +273,7 @@ registerLocaleData(localeZhTw, "zh-TW");
     ViewComponent,
     ViewCustomFieldsComponent,
     RemovePasswordComponent,
+    VaultFilterComponent,
   ],
   entryComponents: [],
   providers: [CurrencyPipe, DatePipe],

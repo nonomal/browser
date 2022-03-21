@@ -9,9 +9,11 @@ import { CipherService } from "jslib-common/abstractions/cipher.service";
 import { CollectionService } from "jslib-common/abstractions/collection.service";
 import { FolderService } from "jslib-common/abstractions/folder.service";
 import { I18nService } from "jslib-common/abstractions/i18n.service";
+import { OrganizationService } from "jslib-common/abstractions/organization.service";
 import { PlatformUtilsService } from "jslib-common/abstractions/platformUtils.service";
 import { SearchService } from "jslib-common/abstractions/search.service";
 import { CipherType } from "jslib-common/enums/cipherType";
+import { Organization } from "jslib-common/models/domain/organization";
 import { TreeNode } from "jslib-common/models/domain/treeNode";
 import { CipherView } from "jslib-common/models/view/cipherView";
 import { CollectionView } from "jslib-common/models/view/collectionView";
@@ -22,6 +24,7 @@ import { BrowserComponentState } from "src/models/browserComponentState";
 import { BrowserApi } from "../../browser/browserApi";
 import { StateService } from "../../services/abstractions/state.service";
 import { PopupUtilsService } from "../services/popup-utils.service";
+import { VaultFilterService } from "../services/vault-filter.service";
 
 const ComponentId = "CiphersComponent";
 
@@ -38,6 +41,9 @@ export class CiphersComponent extends BaseCiphersComponent implements OnInit, On
   nestedFolders: TreeNode<FolderView>[];
   nestedCollections: TreeNode<CollectionView>[];
   searchTypeSearch = false;
+  showOrganizations = false;
+  vaultFilter: string;
+  deleted = true;
 
   private selectedTimeout: number;
   private preventSelected = false;
@@ -46,6 +52,7 @@ export class CiphersComponent extends BaseCiphersComponent implements OnInit, On
 
   constructor(
     searchService: SearchService,
+    private organizationService: OrganizationService,
     private route: ActivatedRoute,
     private router: Router,
     private location: Location,
@@ -58,7 +65,8 @@ export class CiphersComponent extends BaseCiphersComponent implements OnInit, On
     private folderService: FolderService,
     private collectionService: CollectionService,
     private platformUtilsService: PlatformUtilsService,
-    private cipherService: CipherService
+    private cipherService: CipherService,
+    private vaultFilterService: VaultFilterService
   ) {
     super(searchService);
     this.applySavedState =
@@ -68,6 +76,8 @@ export class CiphersComponent extends BaseCiphersComponent implements OnInit, On
 
   async ngOnInit() {
     this.searchTypeSearch = !this.platformUtilsService.isSafari();
+    this.showOrganizations = await this.organizationService.hasOrganizations();
+    this.vaultFilter = this.vaultFilterService.getVaultFilter();
     this.route.queryParams.pipe(first()).subscribe(async (params) => {
       if (this.applySavedState) {
         this.state = await this.stateService.getBrowserCipherComponentState();
@@ -99,7 +109,7 @@ export class CiphersComponent extends BaseCiphersComponent implements OnInit, On
           default:
             break;
         }
-        await this.load((c) => c.type === this.type);
+        await this.load(this.buildFilter());
       } else if (params.folderId) {
         this.folderId = params.folderId === "none" ? null : params.folderId;
         this.searchPlaceholder = this.i18nService.t("searchFolder");
@@ -115,7 +125,7 @@ export class CiphersComponent extends BaseCiphersComponent implements OnInit, On
         } else {
           this.groupingTitle = this.i18nService.t("noneFolder");
         }
-        await this.load((c) => c.folderId === this.folderId);
+        await this.load(this.buildFilter());
       } else if (params.collectionId) {
         this.collectionId = params.collectionId;
         this.searchPlaceholder = this.i18nService.t("searchCollection");
@@ -132,7 +142,7 @@ export class CiphersComponent extends BaseCiphersComponent implements OnInit, On
         );
       } else {
         this.groupingTitle = this.i18nService.t("allItems");
-        await this.load();
+        await this.load(this.buildFilter());
       }
 
       if (this.applySavedState && this.state != null) {
@@ -230,6 +240,41 @@ export class CiphersComponent extends BaseCiphersComponent implements OnInit, On
       ((this.nestedFolders && this.nestedFolders.length) ||
         (this.nestedCollections && this.nestedCollections.length))
     );
+  }
+
+  async changeVaultSelection() {
+    this.vaultFilter = this.vaultFilterService.getVaultFilter();
+    await this.load(this.buildFilter(), this.deleted);
+  }
+
+  private buildFilter(): (cipher: CipherView) => boolean {
+    return (cipher) => {
+      let cipherPassesFilter = true;
+      if (this.deleted && cipherPassesFilter) {
+        cipherPassesFilter = cipher.isDeleted;
+      }
+      if (this.type != null && cipherPassesFilter) {
+        cipherPassesFilter = cipher.type === this.type;
+      }
+      if (this.folderId != null && this.folderId != "none" && cipherPassesFilter) {
+        cipherPassesFilter = cipher.folderId === this.folderId;
+      }
+      if (this.collectionId != null && cipherPassesFilter) {
+        cipherPassesFilter =
+          cipher.collectionIds != null && cipher.collectionIds.indexOf(this.collectionId) > -1;
+      }
+      if (
+        this.vaultFilter === this.vaultFilterService.selectedOrganizationId &&
+        cipherPassesFilter
+      ) {
+        cipherPassesFilter = cipher.organizationId === this.vaultFilter;
+      }
+      if (this.vaultFilter === this.vaultFilterService.myVault && cipherPassesFilter) {
+        cipherPassesFilter = cipher.organizationId === null;
+      }
+      console.log(this.type, this.deleted, this.vaultFilter);
+      return cipherPassesFilter;
+    };
   }
 
   private async saveState() {

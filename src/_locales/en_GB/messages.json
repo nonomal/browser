@@ -55,6 +55,9 @@
   "myVault": {
     "message": "My vault"
   },
+  "allVaults": {
+    "message": "All vaults"
+  },
   "tools": {
     "message": "Tools"
   },

@@ -1,0 +1,59 @@
+<div class="content vault-filter-content" *ngIf="loaded">
+  <button
+    class="vault-filter"
+    (click)="toggle()"
+    cdkOverlayOrigin
+    #trigger="cdkOverlayOrigin"
+    aria-haspopup="menu"
+    aria-controls="cdk-overlay-container"
+    [attr.aria-expanded]="isOpen"
+  >
+    <span>{{ vaultFilterDisplay }}</span>
+    <i
+      class="bwi"
+      aria-hidden="true"
+      [ngClass]="{ 'bwi-angle-down': !isOpen, 'bwi-chevron-up': isOpen }"
+    ></i>
+  </button>
+  <ng-template
+    cdkConnectedOverlay
+    [cdkConnectedOverlayOrigin]="trigger"
+    [cdkConnectedOverlayHasBackdrop]="true"
+    [cdkConnectedOverlayBackdropClass]="'cdk-overlay-transparent-backdrop'"
+    [cdkConnectedOverlayOpen]="isOpen"
+    [cdkConnectedOverlayPositions]="overlayPostition"
+    (backdropClick)="close()"
+    (detach)="close()"
+  >
+    <div
+      class="vault-filter-dropdown"
+      [@transformPanel]="'open'"
+      cdkTrapFocus
+      cdkTrapFocusAutoCapture
+      role="dialog"
+      aria-modal="true"
+    >
+      <button [ngClass]="{ active: !myVaultOnly && !selectOrganizationId }">
+        <a href="#" appStopClick appBlurClick (click)="selectAllVaults()">
+          <i class="bwi bwi-fw bwi-filter" aria-hidden="true"></i>
+          &nbsp;{{ "allVaults" | i18n }}
+        </a>
+      </button>
+      <button [ngClass]="{ active: myVaultOnly }">
+        <a href="#" appStopClick appBlurClick (click)="selectMyVault()">
+          <i class="bwi bwi-fw bwi-user" aria-hidden="true"></i>
+          &nbsp;{{ "myVault" | i18n }}
+        </a>
+      </button>
+      <button
+        *ngFor="let organization of organizations"
+        [ngClass]="{ active: organization.id === selectedOrganizationId }"
+      >
+        <a href="#" appStopClick appBlurClick (click)="selectOrganization(organization)">
+          <i class="bwi bwi-fw bwi-business" aria-hidden="true"></i>
+          <span>&nbsp;{{ organization.name | ellipsis: 24:true }}</span>
+        </a>
+      </button>
+    </div>
+  </ng-template>
+</div>
