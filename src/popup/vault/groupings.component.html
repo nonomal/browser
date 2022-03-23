@@ -23,10 +23,6 @@
   </div>
 </header>
 <content>
-  <app-vault-filter
-    *ngIf="showOrganizations"
-    (onVaultSelectionChanged)="vaultFilterChanged()"
-  ></app-vault-filter>
   <div class="no-items" *ngIf="(!ciphers || !ciphers.length) && !showSearching()">
     <i class="bwi bwi-spinner bwi-spin bwi-3x" *ngIf="!loaded"></i>
     <ng-container *ngIf="loaded">
@@ -38,6 +34,10 @@
     </ng-container>
   </div>
   <ng-container *ngIf="ciphers && ciphers.length && !showSearching()">
+    <app-vault-filter
+      *ngIf="showOrganizations"
+      (onVaultSelectionChanged)="vaultFilterChanged()"
+    ></app-vault-filter>
     <div class="box list" *ngIf="favoriteCiphers">
       <h2 class="box-header">
         {{ "favorites" | i18n }}
