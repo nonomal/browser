@@ -114,6 +114,7 @@ export class CiphersComponent extends BaseCiphersComponent implements OnInit, On
         this.folderId = params.folderId === "none" ? null : params.folderId;
         this.searchPlaceholder = this.i18nService.t("searchFolder");
         if (this.folderId != null) {
+          this.showOrganizations = false;
           const folderNode = await this.folderService.getNested(this.folderId);
           if (folderNode != null && folderNode.node != null) {
             this.groupingTitle = folderNode.node.name;
@@ -272,7 +273,6 @@ export class CiphersComponent extends BaseCiphersComponent implements OnInit, On
       if (this.vaultFilter === this.vaultFilterService.myVault && cipherPassesFilter) {
         cipherPassesFilter = cipher.organizationId === null;
       }
-      console.log(this.type, this.deleted, this.vaultFilter);
       return cipherPassesFilter;
     };
   }
