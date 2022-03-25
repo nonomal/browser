@@ -129,7 +129,7 @@ import { CurrentTabComponent } from "./vault/current-tab.component";
 import { GroupingsComponent } from "./vault/groupings.component";
 import { PasswordHistoryComponent } from "./vault/password-history.component";
 import { ShareComponent } from "./vault/share.component";
-import { VaultFilterComponent } from "./vault/vault-filter.component";
+import { OrganizationFilterComponent } from "./vault/organization-filter.component";
 import { ViewCustomFieldsComponent } from "./vault/view-custom-fields.component";
 import { ViewComponent } from "./vault/view.component";
 
@@ -223,6 +223,7 @@ registerLocaleData(localeZhTw, "zh-TW");
     ColorPasswordCountPipe,
     ColorPasswordPipe,
     CurrentTabComponent,
+    EllipsisPipe,
     EnvironmentComponent,
     ExcludedDomainsComponent,
     ExportComponent,
@@ -234,12 +235,12 @@ registerLocaleData(localeZhTw, "zh-TW");
     HintComponent,
     HomeComponent,
     I18nPipe,
-    EllipsisPipe,
     IconComponent,
     InputVerbatimDirective,
     LockComponent,
     LoginComponent,
     OptionsComponent,
+    OrganizationFilterComponent,
     PasswordGeneratorComponent,
     PasswordGeneratorHistoryComponent,
     PasswordHistoryComponent,
@@ -273,7 +274,6 @@ registerLocaleData(localeZhTw, "zh-TW");
     ViewComponent,
     ViewCustomFieldsComponent,
     RemovePasswordComponent,
-    VaultFilterComponent,
   ],
   entryComponents: [],
   providers: [CurrencyPipe, DatePipe],

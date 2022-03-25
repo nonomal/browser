@@ -34,10 +34,10 @@
     </ng-container>
   </div>
   <ng-container *ngIf="ciphers && ciphers.length && !showSearching()">
-    <app-vault-filter
+    <app-org-filter
       *ngIf="showOrganizations"
       (onVaultSelectionChanged)="vaultFilterChanged()"
-    ></app-vault-filter>
+    ></app-org-filter>
     <div class="box list" *ngIf="favoriteCiphers">
       <h2 class="box-header">
         {{ "favorites" | i18n }}

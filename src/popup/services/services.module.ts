@@ -1,8 +1,8 @@
 import { APP_INITIALIZER, LOCALE_ID, NgModule } from "@angular/core";
 
 import { JslibServicesModule } from "jslib-angular/services/jslib-services.module";
-import { LockGuardService as BaseLockGuardService } from "jslib-angular/services/lock-guard.service";
-import { UnauthGuardService as BaseUnauthGuardService } from "jslib-angular/services/unauth-guard.service";
+import { LockGuard as BaseLockGuardService } from "jslib-angular/guards/lock.guard";
+import { UnauthGuard as BaseUnauthGuardService } from "jslib-angular/guards/unauth.guard";
 import { ApiService } from "jslib-common/abstractions/api.service";
 import { AppIdService } from "jslib-common/abstractions/appId.service";
 import { AuditService } from "jslib-common/abstractions/audit.service";
@@ -56,7 +56,7 @@ import { PasswordRepromptService } from "./password-reprompt.service";
 import { PopupSearchService } from "./popup-search.service";
 import { PopupUtilsService } from "./popup-utils.service";
 import { UnauthGuardService } from "./unauth-guard.service";
-import { VaultFilterService } from "./vault-filter.service";
+import { OrganizationFilterService } from "./organization-filter.service";
 
 const isPrivateMode = BrowserApi.getBackgroundPage() == null;
 const mainBackground: MainBackground = isPrivateMode
@@ -297,6 +297,7 @@ export function initFactory(
       useFactory: getBgService<OrganizationService>("organizationService"),
       deps: [],
     },
+    { provide: OrganizationFilterService },
     {
       provide: ProviderService,
       useFactory: getBgService<ProviderService>("providerService"),
@@ -317,7 +318,6 @@ export function initFactory(
       useExisting: StateServiceAbstraction,
       deps: [],
     },
-    { provide: VaultFilterService },
   ],
 })
 export class ServicesModule {}

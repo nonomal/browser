@@ -35,10 +35,10 @@
     <i class="bwi bwi-spinner bwi-spin bwi-3x" aria-hidden="true"></i>
   </div>
   <ng-container *ngIf="loaded">
-    <app-vault-filter
+    <app-org-filter
       *ngIf="showOrganizations"
       (onVaultSelectionChanged)="vaultFilterChanged()"
-    ></app-vault-filter>
+    ></app-org-filter>
     <div class="box list" *ngIf="loginCiphers">
       <h2 class="box-header">
         {{ "typeLogins" | i18n }}

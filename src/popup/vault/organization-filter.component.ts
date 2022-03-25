@@ -6,12 +6,11 @@ import { I18nService } from "jslib-common/abstractions/i18n.service";
 import { OrganizationService } from "jslib-common/abstractions/organization.service";
 import { Organization } from "jslib-common/models/domain/organization";
 
-import { VaultFilterService } from "../services/vault-filter.service";
-
+import { OrganizationFilterService } from "../services/organization-filter.service";
 
 @Component({
-  selector: "app-vault-filter",
-  templateUrl: "vault-filter.component.html",
+  selector: "app-org-filter",
+  templateUrl: "organization-filter.component.html",
   animations: [
     trigger("transformPanel", [
       state(
@@ -33,7 +32,7 @@ import { VaultFilterService } from "../services/vault-filter.service";
     ]),
   ],
 })
-export class VaultFilterComponent implements OnInit {
+export class OrganizationFilterComponent implements OnInit {
   @Output() onVaultSelectionChanged = new EventEmitter();
 
   isOpen = false;
@@ -53,19 +52,19 @@ export class VaultFilterComponent implements OnInit {
 
   constructor(
     private organizationService: OrganizationService,
-    private vaultFilterService: VaultFilterService,
+    private organizationFilterService: OrganizationFilterService,
     private i18nService: I18nService
   ) {}
   async ngOnInit() {
-    this.vaultFilter = this.vaultFilterService.getVaultFilter();
+    this.vaultFilter = this.organizationFilterService.getVaultFilter();
     this.organizations = await this.organizationService.getAll();
     if (this.organizations.length > 0) {
       this.showOrganizations = true;
     }
     if (this.vaultFilter === "myVault") {
-      this.vaultFilterDisplay = this.i18nService.t(this.vaultFilterService.myVault);
+      this.vaultFilterDisplay = this.i18nService.t(this.organizationFilterService.myVault);
     } else if (this.vaultFilter === "allVaults" || this.vaultFilter == null) {
-      this.vaultFilterDisplay = this.i18nService.t(this.vaultFilterService.allVaults);
+      this.vaultFilterDisplay = this.i18nService.t(this.organizationFilterService.allVaults);
     } else {
       this.vaultFilterDisplay = this.organizations.find((o) => o.id === this.vaultFilter).name;
     }
@@ -81,19 +80,19 @@ export class VaultFilterComponent implements OnInit {
 
   selectOrganization(organization: Organization) {
     this.vaultFilterDisplay = organization.name;
-    this.vaultFilterService.setVaultFilter(organization.id);
+    this.organizationFilterService.setVaultFilter(organization.id);
     this.onVaultSelectionChanged.emit();
     this.close();
   }
   selectAllVaults() {
-    this.vaultFilterDisplay = this.i18nService.t(this.vaultFilterService.allVaults);
-    this.vaultFilterService.setVaultFilter(this.vaultFilterService.allVaults);
+    this.vaultFilterDisplay = this.i18nService.t(this.organizationFilterService.allVaults);
+    this.organizationFilterService.setVaultFilter(this.organizationFilterService.allVaults);
     this.onVaultSelectionChanged.emit();
     this.close();
   }
   selectMyVault() {
-    this.vaultFilterDisplay = this.i18nService.t(this.vaultFilterService.myVault);
-    this.vaultFilterService.setVaultFilter(this.vaultFilterService.myVault);
+    this.vaultFilterDisplay = this.i18nService.t(this.organizationFilterService.myVault);
+    this.organizationFilterService.setVaultFilter(this.organizationFilterService.myVault);
     this.onVaultSelectionChanged.emit();
     this.close();
   }

@@ -24,7 +24,7 @@ import { BrowserComponentState } from "src/models/browserComponentState";
 import { BrowserApi } from "../../browser/browserApi";
 import { StateService } from "../../services/abstractions/state.service";
 import { PopupUtilsService } from "../services/popup-utils.service";
-import { VaultFilterService } from "../services/vault-filter.service";
+import { OrganizationFilterService } from "../services/organization-filter.service";
 
 const ComponentId = "CiphersComponent";
 
@@ -66,7 +66,7 @@ export class CiphersComponent extends BaseCiphersComponent implements OnInit, On
     private collectionService: CollectionService,
     private platformUtilsService: PlatformUtilsService,
     private cipherService: CipherService,
-    private vaultFilterService: VaultFilterService
+    private organizationFilterService: OrganizationFilterService
   ) {
     super(searchService);
     this.applySavedState =
@@ -77,7 +77,7 @@ export class CiphersComponent extends BaseCiphersComponent implements OnInit, On
   async ngOnInit() {
     this.searchTypeSearch = !this.platformUtilsService.isSafari();
     this.showOrganizations = await this.organizationService.hasOrganizations();
-    this.vaultFilter = this.vaultFilterService.getVaultFilter();
+    this.vaultFilter = this.organizationFilterService.getVaultFilter();
     this.route.queryParams.pipe(first()).subscribe(async (params) => {
       if (this.applySavedState) {
         this.state = await this.stateService.getBrowserCipherComponentState();
@@ -244,7 +244,7 @@ export class CiphersComponent extends BaseCiphersComponent implements OnInit, On
   }
 
   async changeVaultSelection() {
-    this.vaultFilter = this.vaultFilterService.getVaultFilter();
+    this.vaultFilter = this.organizationFilterService.getVaultFilter();
     await this.load(this.buildFilter(), this.deleted);
   }
 
@@ -265,12 +265,12 @@ export class CiphersComponent extends BaseCiphersComponent implements OnInit, On
           cipher.collectionIds != null && cipher.collectionIds.indexOf(this.collectionId) > -1;
       }
       if (
-        this.vaultFilter === this.vaultFilterService.selectedOrganizationId &&
+        this.vaultFilter === this.organizationFilterService.selectedOrganizationId &&
         cipherPassesFilter
       ) {
         cipherPassesFilter = cipher.organizationId === this.vaultFilter;
       }
-      if (this.vaultFilter === this.vaultFilterService.myVault && cipherPassesFilter) {
+      if (this.vaultFilter === this.organizationFilterService.myVault && cipherPassesFilter) {
         cipherPassesFilter = cipher.organizationId === null;
       }
       return cipherPassesFilter;
