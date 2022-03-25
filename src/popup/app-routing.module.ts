@@ -37,9 +37,9 @@ import { AttachmentsComponent } from "./vault/attachments.component";
 import { CiphersComponent } from "./vault/ciphers.component";
 import { CollectionsComponent } from "./vault/collections.component";
 import { CurrentTabComponent } from "./vault/current-tab.component";
-import { GroupingsComponent } from "./vault/groupings.component";
 import { PasswordHistoryComponent } from "./vault/password-history.component";
 import { ShareComponent } from "./vault/share.component";
+import { VaultFilterComponent } from "./vault/vault-filter.component";
 import { ViewComponent } from "./vault/view.component";
 
 const routes: Routes = [
@@ -277,7 +277,7 @@ const routes: Routes = [
       },
       {
         path: "vault",
-        component: GroupingsComponent,
+        component: VaultFilterComponent,
         canActivate: [AuthGuard],
         data: { state: "tabs_vault" },
       },

@@ -28,10 +28,10 @@ import { PopupUtilsService } from "../services/popup-utils.service";
 const ComponentId = "VaultComponent";
 
 @Component({
-  selector: "app-groupings",
-  templateUrl: "groupings.component.html",
+  selector: "app-vault-filter",
+  templateUrl: "vault-filter.component.html",
 })
-export class GroupingsComponent implements OnInit, OnDestroy {
+export class VaultFilterComponent implements OnInit, OnDestroy {
   get showNoFolderCiphers(): boolean {
     return (
       this.noFolderCiphers != null &&
