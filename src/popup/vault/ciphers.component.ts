@@ -44,6 +44,7 @@ export class CiphersComponent extends BaseCiphersComponent implements OnInit, On
   showOrganizations = false;
   vaultFilter: string;
   deleted = true;
+  noneFolder = false;
 
   private selectedTimeout: number;
   private preventSelected = false;
@@ -124,6 +125,7 @@ export class CiphersComponent extends BaseCiphersComponent implements OnInit, On
                 : null;
           }
         } else {
+          this.noneFolder = true;
           this.groupingTitle = this.i18nService.t("noneFolder");
         }
         await this.load(this.buildFilter());
@@ -249,6 +251,7 @@ export class CiphersComponent extends BaseCiphersComponent implements OnInit, On
   }
 
   private buildFilter(): (cipher: CipherView) => boolean {
+    console.log(this.folderId);
     return (cipher) => {
       let cipherPassesFilter = true;
       if (this.deleted && cipherPassesFilter) {
@@ -259,6 +262,9 @@ export class CiphersComponent extends BaseCiphersComponent implements OnInit, On
       }
       if (this.folderId != null && this.folderId != "none" && cipherPassesFilter) {
         cipherPassesFilter = cipher.folderId === this.folderId;
+      }
+      if (this.noneFolder) {
+        cipherPassesFilter = cipher.folderId == null;
       }
       if (this.collectionId != null && cipherPassesFilter) {
         cipherPassesFilter =
