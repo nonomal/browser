@@ -23,8 +23,8 @@ import { BrowserComponentState } from "src/models/browserComponentState";
 
 import { BrowserApi } from "../../browser/browserApi";
 import { StateService } from "../../services/abstractions/state.service";
-import { PopupUtilsService } from "../services/popup-utils.service";
 import { OrganizationFilterService } from "../services/organization-filter.service";
+import { PopupUtilsService } from "../services/popup-utils.service";
 
 const ComponentId = "CiphersComponent";
 

@@ -1,8 +1,8 @@
 import { APP_INITIALIZER, LOCALE_ID, NgModule } from "@angular/core";
 
-import { JslibServicesModule } from "jslib-angular/services/jslib-services.module";
 import { LockGuard as BaseLockGuardService } from "jslib-angular/guards/lock.guard";
 import { UnauthGuard as BaseUnauthGuardService } from "jslib-angular/guards/unauth.guard";
+import { JslibServicesModule } from "jslib-angular/services/jslib-services.module";
 import { ApiService } from "jslib-common/abstractions/api.service";
 import { AppIdService } from "jslib-common/abstractions/appId.service";
 import { AuditService } from "jslib-common/abstractions/audit.service";
@@ -52,11 +52,11 @@ import BrowserMessagingPrivateModePopupService from "../../services/browserMessa
 
 import { DebounceNavigationService } from "./debounceNavigationService";
 import { LockGuardService } from "./lock-guard.service";
+import { OrganizationFilterService } from "./organization-filter.service";
 import { PasswordRepromptService } from "./password-reprompt.service";
 import { PopupSearchService } from "./popup-search.service";
 import { PopupUtilsService } from "./popup-utils.service";
 import { UnauthGuardService } from "./unauth-guard.service";
-import { OrganizationFilterService } from "./organization-filter.service";
 
 const isPrivateMode = BrowserApi.getBackgroundPage() == null;
 const mainBackground: MainBackground = isPrivateMode

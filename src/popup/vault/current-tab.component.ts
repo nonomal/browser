@@ -17,8 +17,8 @@ import { CipherView } from "jslib-common/models/view/cipherView";
 
 import { BrowserApi } from "../../browser/browserApi";
 import { AutofillService } from "../../services/abstractions/autofill.service";
-import { PopupUtilsService } from "../services/popup-utils.service";
 import { OrganizationFilterService } from "../services/organization-filter.service";
+import { PopupUtilsService } from "../services/popup-utils.service";
 
 const BroadcasterSubscriptionId = "CurrentTabComponent";
 

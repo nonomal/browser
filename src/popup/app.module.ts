@@ -127,9 +127,9 @@ import { CiphersComponent } from "./vault/ciphers.component";
 import { CollectionsComponent } from "./vault/collections.component";
 import { CurrentTabComponent } from "./vault/current-tab.component";
 import { GroupingsComponent } from "./vault/groupings.component";
+import { OrganizationFilterComponent } from "./vault/organization-filter.component";
 import { PasswordHistoryComponent } from "./vault/password-history.component";
 import { ShareComponent } from "./vault/share.component";
-import { OrganizationFilterComponent } from "./vault/organization-filter.component";
 import { ViewCustomFieldsComponent } from "./vault/view-custom-fields.component";
 import { ViewComponent } from "./vault/view.component";
 

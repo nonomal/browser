@@ -12,6 +12,8 @@ import { PlatformUtilsService } from "jslib-common/abstractions/platformUtils.se
 import { SearchService } from "jslib-common/abstractions/search.service";
 import { SyncService } from "jslib-common/abstractions/sync.service";
 import { CipherType } from "jslib-common/enums/cipherType";
+import { Organization } from "jslib-common/models/domain/organization";
+import { TreeNode } from "jslib-common/models/domain/treeNode";
 import { CipherView } from "jslib-common/models/view/cipherView";
 import { CollectionView } from "jslib-common/models/view/collectionView";
 import { FolderView } from "jslib-common/models/view/folderView";
@@ -20,10 +22,8 @@ import { BrowserGroupingsComponentState } from "src/models/browserGroupingsCompo
 
 import { BrowserApi } from "../../browser/browserApi";
 import { StateService } from "../../services/abstractions/state.service";
-import { PopupUtilsService } from "../services/popup-utils.service";
 import { OrganizationFilterService } from "../services/organization-filter.service";
-import { TreeNode } from "jslib-common/models/domain/treeNode";
-import { Organization } from "jslib-common/models/domain/organization";
+import { PopupUtilsService } from "../services/popup-utils.service";
 
 const ComponentId = "VaultComponent";
 
@@ -211,7 +211,6 @@ export class GroupingsComponent implements OnInit, OnDestroy {
 
   async loadOrganizations() {
     this.showOrganizations = await this.organizationService.hasOrganizations();
-    console.log(this.showOrganizations);
     if (!this.showOrganizations) {
       return;
     }
