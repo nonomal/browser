@@ -4,6 +4,10 @@ import { Component, EventEmitter, Input, OnInit, Output } from "@angular/core";
 
 import { I18nService } from "jslib-common/abstractions/i18n.service";
 import { OrganizationService } from "jslib-common/abstractions/organization.service";
+import { PolicyService } from "jslib-common/abstractions/policy.service";
+
+import { PolicyType } from "jslib-common/enums/policyType";
+
 import { Organization } from "jslib-common/models/domain/organization";
 
 import { OrganizationFilterService } from "../services/organization-filter.service";
@@ -37,10 +41,11 @@ export class OrganizationFilterComponent implements OnInit {
 
   isOpen = false;
   loaded = false;
-  showOrganizations = true;
+  showOrganizations = false;
   organizations: Organization[];
   vaultFilter: string;
   vaultFilterDisplay = "";
+  enforcePersonalOwnwership = false;
   overlayPostition: ConnectedPosition[] = [
     {
       originX: "start",
@@ -53,20 +58,36 @@ export class OrganizationFilterComponent implements OnInit {
   constructor(
     private organizationService: OrganizationService,
     private organizationFilterService: OrganizationFilterService,
-    private i18nService: I18nService
+    private i18nService: I18nService,
+    private policyService: PolicyService
   ) {}
   async ngOnInit() {
     this.vaultFilter = this.organizationFilterService.getVaultFilter();
     this.organizations = await this.organizationService.getAll();
-    if (this.organizations.length > 0) {
+    this.enforcePersonalOwnwership = await this.policyService.policyAppliesToUser(
+      PolicyType.PersonalOwnership
+    );
+
+    if (
+      (!this.enforcePersonalOwnwership && this.organizations.length > 0) ||
+      (this.enforcePersonalOwnwership && this.organizations.length > 1)
+    ) {
       this.showOrganizations = true;
-    }
-    if (this.vaultFilter === "myVault") {
-      this.vaultFilterDisplay = this.i18nService.t(this.organizationFilterService.myVault);
-    } else if (this.vaultFilter === "allVaults" || this.vaultFilter == null) {
-      this.vaultFilterDisplay = this.i18nService.t(this.organizationFilterService.allVaults);
-    } else {
-      this.vaultFilterDisplay = this.organizations.find((o) => o.id === this.vaultFilter).name;
+
+      if (
+        this.enforcePersonalOwnwership &&
+        this.vaultFilter == this.organizationFilterService.allVaults
+      ) {
+        this.organizationFilterService.setVaultFilter(this.organizations[0].id);
+        this.vaultFilter = this.organizations[0].id;
+        this.vaultFilterDisplay = this.organizations.find((o) => o.id === this.vaultFilter).name;
+      } else if (this.vaultFilter === "myVault") {
+        this.vaultFilterDisplay = this.i18nService.t(this.organizationFilterService.myVault);
+      } else if (this.vaultFilter === "allVaults") {
+        this.vaultFilterDisplay = this.i18nService.t(this.organizationFilterService.allVaults);
+      } else {
+        this.vaultFilterDisplay = this.organizations.find((o) => o.id === this.vaultFilter).name;
+      }
     }
     this.loaded = true;
   }

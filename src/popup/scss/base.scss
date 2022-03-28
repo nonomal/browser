@@ -485,7 +485,7 @@ content {
   }
   margin-right: 5px;
   margin-top: 1px;
-  width: 50%;
+  width: 160px;
   @include themify($themes) {
     border: 1px solid themed("borderColor");
   }

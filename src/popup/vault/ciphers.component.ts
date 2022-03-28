@@ -251,7 +251,6 @@ export class CiphersComponent extends BaseCiphersComponent implements OnInit, On
   }
 
   private buildFilter(): (cipher: CipherView) => boolean {
-    console.log(this.folderId);
     return (cipher) => {
       let cipherPassesFilter = true;
       if (this.deleted && cipherPassesFilter) {

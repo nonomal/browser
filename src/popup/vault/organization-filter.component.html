@@ -1,4 +1,4 @@
-<div class="content vault-filter-content" *ngIf="loaded">
+<div class="content vault-filter-content" *ngIf="loaded && showOrganizations">
   <button
     class="vault-filter"
     (click)="toggle()"
@@ -33,22 +33,22 @@
       role="dialog"
       aria-modal="true"
     >
-      <button [ngClass]="{ active: !myVaultOnly && !selectOrganizationId }">
+      <button
+        *ngIf="!enforcePersonalOwnwership"
+        [ngClass]="{ active: !myVaultOnly && !selectOrganizationId }"
+      >
         <a href="#" appStopClick appBlurClick (click)="selectAllVaults()">
           <i class="bwi bwi-fw bwi-filter" aria-hidden="true"></i>
           &nbsp;{{ "allVaults" | i18n }}
         </a>
       </button>
-      <button [ngClass]="{ active: myVaultOnly }">
+      <button *ngIf="!enforcePersonalOwnwership">
         <a href="#" appStopClick appBlurClick (click)="selectMyVault()">
           <i class="bwi bwi-fw bwi-user" aria-hidden="true"></i>
           &nbsp;{{ "myVault" | i18n }}
         </a>
       </button>
-      <button
-        *ngFor="let organization of organizations"
-        [ngClass]="{ active: organization.id === selectedOrganizationId }"
-      >
+      <button *ngFor="let organization of organizations">
         <a href="#" appStopClick appBlurClick (click)="selectOrganization(organization)">
           <i
             *ngIf="organization.planProductType !== 1"
