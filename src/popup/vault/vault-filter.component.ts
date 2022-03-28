@@ -303,11 +303,8 @@ export class VaultFilterComponent implements OnInit, OnDestroy {
     } else {
       this.selectedOrganization = this.vaultFilter;
     }
-    await this.reloadCollectionsAndFolders();
-    if (this.vaultFilter == null) {
-      this.vaultFilter = this.organizationFilterService.allVaults;
-    }
 
+    await this.reloadCollectionsAndFolders();
     this.getCounts();
   }
 

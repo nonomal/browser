@@ -38,7 +38,6 @@ export class CurrentTabComponent implements OnInit, OnDestroy {
   searchTypeSearch = false;
   loaded = false;
   showOrganizations = false;
-  vaultFilter: string;
 
   private totpCode: string;
   private totpTimeout: number;
@@ -190,7 +189,6 @@ export class CurrentTabComponent implements OnInit, OnDestroy {
   }
 
   vaultFilterChanged() {
-    this.vaultFilter = this.organizationFilterService.getVaultFilter();
     this.loaded = false;
     this.load();
   }
