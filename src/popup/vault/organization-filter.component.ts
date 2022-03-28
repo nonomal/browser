@@ -5,9 +5,7 @@ import { Component, EventEmitter, Input, OnInit, Output } from "@angular/core";
 import { I18nService } from "jslib-common/abstractions/i18n.service";
 import { OrganizationService } from "jslib-common/abstractions/organization.service";
 import { PolicyService } from "jslib-common/abstractions/policy.service";
-
 import { PolicyType } from "jslib-common/enums/policyType";
-
 import { Organization } from "jslib-common/models/domain/organization";
 
 import { OrganizationFilterService } from "../services/organization-filter.service";
