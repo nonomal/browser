@@ -467,10 +467,10 @@ content {
   width: 100%;
 }
 
-.vault-filter-content {
+.org-filter-content {
   padding-bottom: 5px;
   padding-left: 7px;
-  .vault-filter {
+  .org-filter {
     @include themify($themes) {
       background-color: themed("backgroundColor");
     }
@@ -479,7 +479,7 @@ content {
     border-radius: $border-radius;
   }
 }
-.vault-filter-dropdown {
+.org-filter-dropdown {
   @include themify($themes) {
     background-color: themed("boxBackgroundColor");
   }

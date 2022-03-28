@@ -1,6 +1,6 @@
-<div class="content vault-filter-content" *ngIf="loaded && showOrganizations">
+<div class="content org-filter-content" *ngIf="loaded && showOrganizations">
   <button
-    class="vault-filter"
+    class="org-filter"
     (click)="toggle()"
     cdkOverlayOrigin
     #trigger="cdkOverlayOrigin"
@@ -26,7 +26,7 @@
     (detach)="close()"
   >
     <div
-      class="vault-filter-dropdown"
+      class="org-filter-dropdown"
       [@transformPanel]="'open'"
       cdkTrapFocus
       cdkTrapFocusAutoCapture
