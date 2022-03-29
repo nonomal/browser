@@ -7,7 +7,6 @@ import { BroadcasterService } from "jslib-common/abstractions/broadcaster.servic
 import { CipherService } from "jslib-common/abstractions/cipher.service";
 import { CollectionService } from "jslib-common/abstractions/collection.service";
 import { FolderService } from "jslib-common/abstractions/folder.service";
-import { OrganizationService } from "jslib-common/abstractions/organization.service";
 import { PlatformUtilsService } from "jslib-common/abstractions/platformUtils.service";
 import { SearchService } from "jslib-common/abstractions/search.service";
 import { SyncService } from "jslib-common/abstractions/sync.service";
@@ -62,8 +61,6 @@ export class VaultFilterComponent implements OnInit, OnDestroy {
   searchTypeSearch = false;
   deletedCount = 0;
   vaultFilter = "";
-  showOrganizations = false;
-  organizations: Organization[];
   selectedOrganization: string = null;
 
   private loadedTimeout: number;
@@ -79,8 +76,6 @@ export class VaultFilterComponent implements OnInit, OnDestroy {
     private collectionService: CollectionService,
     private folderService: FolderService,
     private cipherService: CipherService,
-    private organizationService: OrganizationService,
-    private stateService: StateService,
     private router: Router,
     private ngZone: NgZone,
     private broadcasterService: BroadcasterService,
@@ -160,9 +155,9 @@ export class VaultFilterComponent implements OnInit, OnDestroy {
   async load() {
     this.vaultFilter = this.organizationFilterService.getVaultFilter();
 
-    await this.loadFolders();
-    await this.loadCollections();
-    await this.loadOrganizations();
+    this.updateOrgFilter();
+    await this.loadFolders(this.selectedOrganization);
+    await this.loadCollections(this.selectedOrganization);
     await this.loadCiphers();
 
     if (this.showNoFolderCiphers && this.nestedFolders.length > 0) {
@@ -209,14 +204,6 @@ export class VaultFilterComponent implements OnInit, OnDestroy {
     this.nestedFolders = await this.folderService.getAllNested(this.folders);
   }
 
-  async loadOrganizations() {
-    this.showOrganizations = await this.organizationService.hasOrganizations();
-    if (!this.showOrganizations) {
-      return;
-    }
-    this.organizations = await this.organizationService.getAll();
-  }
-
   async search(timeout: number = null) {
     this.searchPending = false;
     if (this.searchTimeout != null) {
@@ -230,6 +217,7 @@ export class VaultFilterComponent implements OnInit, OnDestroy {
         filterDeleted,
         this.allCiphers
       );
+      this.ciphers = this.ciphers.filter((c) => !this.organizationFilterService.filterCipher(c));
       return;
     }
     this.searchPending = true;
@@ -244,6 +232,7 @@ export class VaultFilterComponent implements OnInit, OnDestroy {
           this.allCiphers
         );
       }
+      this.ciphers = this.ciphers.filter((c) => !this.organizationFilterService.filterCipher(c));
       this.searchPending = false;
     }, timeout);
   }
@@ -294,6 +283,15 @@ export class VaultFilterComponent implements OnInit, OnDestroy {
   }
 
   async vaultFilterChanged() {
+    if (this.showSearching) {
+      await this.search();
+    }
+    this.updateOrgFilter();
+    await this.loadCollectionsAndFolders();
+    this.getCounts();
+  }
+
+  updateOrgFilter() {
     this.vaultFilter = this.organizationFilterService.getVaultFilter();
     if (this.vaultFilter === "myVault") {
       this.selectedOrganization = null;
@@ -303,9 +301,6 @@ export class VaultFilterComponent implements OnInit, OnDestroy {
     } else {
       this.selectedOrganization = this.vaultFilter;
     }
-
-    await this.reloadCollectionsAndFolders();
-    this.getCounts();
   }
 
   getCounts() {
@@ -382,7 +377,7 @@ export class VaultFilterComponent implements OnInit, OnDestroy {
     }
   }
 
-  private async reloadCollectionsAndFolders() {
+  private async loadCollectionsAndFolders() {
     await this.loadCollections(this.selectedOrganization);
     await this.loadFolders(this.selectedOrganization);
   }

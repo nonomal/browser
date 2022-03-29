@@ -32,6 +32,10 @@ export class OrganizationFilterService {
     this.selectedFilter = filter;
   }
 
+  clear() {
+    this.setVaultFilter(this.allVaults);
+  }
+
   filterCipher(cipher: CipherView) {
     if (!this.selectedOrganizationId && !this.myVaultOnly) {
       return false;

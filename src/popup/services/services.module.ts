@@ -297,7 +297,10 @@ export function initFactory(
       useFactory: getBgService<OrganizationService>("organizationService"),
       deps: [],
     },
-    { provide: OrganizationFilterService },
+    {
+      provide: OrganizationFilterService,
+      useFactory: getBgService<OrganizationFilterService>("organizationFilterService"),
+    },
     {
       provide: ProviderService,
       useFactory: getBgService<ProviderService>("providerService"),
