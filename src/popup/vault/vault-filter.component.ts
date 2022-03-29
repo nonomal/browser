@@ -11,7 +11,6 @@ import { PlatformUtilsService } from "jslib-common/abstractions/platformUtils.se
 import { SearchService } from "jslib-common/abstractions/search.service";
 import { SyncService } from "jslib-common/abstractions/sync.service";
 import { CipherType } from "jslib-common/enums/cipherType";
-import { Organization } from "jslib-common/models/domain/organization";
 import { TreeNode } from "jslib-common/models/domain/treeNode";
 import { CipherView } from "jslib-common/models/view/cipherView";
 import { CollectionView } from "jslib-common/models/view/collectionView";
