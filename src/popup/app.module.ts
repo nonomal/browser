@@ -60,8 +60,8 @@ import { BrowserModule } from "@angular/platform-browser";
 import { BrowserAnimationsModule } from "@angular/platform-browser/animations";
 
 import { BitwardenToastModule } from "jslib-angular/components/toastr.component";
-import { EllipsisPipe } from "jslib-angular/pipes/ellipsis.pipe";
 import { JslibModule } from "jslib-angular/jslib.module";
+import { EllipsisPipe } from "jslib-angular/pipes/ellipsis.pipe";
 
 import { EnvironmentComponent } from "./accounts/environment.component";
 import { HintComponent } from "./accounts/hint.component";
