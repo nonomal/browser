@@ -1887,5 +1887,8 @@
         "example": "name@example.com"
       }
     }
+  },
+  "error": {
+    "message": "Error"
   }
 }
