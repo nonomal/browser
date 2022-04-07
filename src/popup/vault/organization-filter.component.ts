@@ -59,7 +59,7 @@ export class OrganizationFilterComponent implements OnInit {
     private i18nService: I18nService,
     private policyService: PolicyService
   ) {}
-  
+
   async ngOnInit() {
     this.vaultFilter = this.organizationFilterService.getVaultFilter();
     this.organizations = await this.organizationService.getAll();
@@ -90,7 +90,7 @@ export class OrganizationFilterComponent implements OnInit {
     }
     this.loaded = true;
   }
-  
+
   toggle() {
     this.isOpen = !this.isOpen;
   }
