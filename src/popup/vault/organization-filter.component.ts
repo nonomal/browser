@@ -90,6 +90,7 @@ export class OrganizationFilterComponent implements OnInit {
     }
     this.loaded = true;
   }
+  
   toggle() {
     this.isOpen = !this.isOpen;
   }
