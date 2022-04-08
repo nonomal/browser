@@ -108,10 +108,10 @@ import { AttachmentsComponent } from "./vault/attachments.component";
 import { CiphersComponent } from "./vault/ciphers.component";
 import { CollectionsComponent } from "./vault/collections.component";
 import { CurrentTabComponent } from "./vault/current-tab.component";
-import { OrganizationFilterComponent } from "./vault/organization-filter.component";
 import { PasswordHistoryComponent } from "./vault/password-history.component";
 import { ShareComponent } from "./vault/share.component";
 import { VaultFilterComponent } from "./vault/vault-filter.component";
+import { VaultSelectComponent } from "./vault/vault-select.component";
 import { ViewCustomFieldsComponent } from "./vault/view-custom-fields.component";
 import { ViewComponent } from "./vault/view.component";
 
@@ -209,7 +209,6 @@ registerLocaleData(localeZhTw, "zh-TW");
     LockComponent,
     LoginComponent,
     OptionsComponent,
-    OrganizationFilterComponent,
     PasswordGeneratorComponent,
     PasswordGeneratorHistoryComponent,
     PasswordHistoryComponent,
@@ -234,6 +233,7 @@ registerLocaleData(localeZhTw, "zh-TW");
     TwoFactorOptionsComponent,
     UpdateTempPasswordComponent,
     VaultTimeoutInputComponent,
+    VaultSelectComponent,
     VerifyMasterPasswordComponent,
     ViewComponent,
     ViewCustomFieldsComponent,

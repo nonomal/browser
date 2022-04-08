@@ -11,8 +11,8 @@ import { Organization } from "jslib-common/models/domain/organization";
 import { OrganizationFilterService } from "../services/organization-filter.service";
 
 @Component({
-  selector: "app-org-filter",
-  templateUrl: "organization-filter.component.html",
+  selector: "app-vault-select",
+  templateUrl: "vault-select.component.html",
   animations: [
     trigger("transformPanel", [
       state(
@@ -34,7 +34,7 @@ import { OrganizationFilterService } from "../services/organization-filter.servi
     ]),
   ],
 })
-export class OrganizationFilterComponent implements OnInit {
+export class VaultSelectComponent implements OnInit {
   @Output() onVaultSelectionChanged = new EventEmitter();
 
   isOpen = false;

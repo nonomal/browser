@@ -25,7 +25,7 @@
   </div>
 </header>
 <content [ngClass]="{ 'stacked-boxes': showGroupings() }">
-  <app-org-filter (onVaultSelectionChanged)="changeVaultSelection()"></app-org-filter>
+  <app-vault-select (onVaultSelectionChanged)="changeVaultSelection()"></app-vault-select>
   <ng-container *ngIf="showGroupings()">
     <div class="box list" *ngIf="nestedFolders && nestedFolders.length">
       <h2 class="box-header">

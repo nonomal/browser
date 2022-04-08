@@ -479,7 +479,7 @@ content {
     border-radius: $border-radius;
   }
 }
-.org-filter-dropdown {
+.vault-select {
   @include themify($themes) {
     background-color: themed("boxBackgroundColor");
   }
