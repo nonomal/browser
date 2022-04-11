@@ -22,8 +22,9 @@ import { BrowserComponentState } from "src/models/browserComponentState";
 
 import { BrowserApi } from "../../browser/browserApi";
 import { StateService } from "../../services/abstractions/state.service";
-import { VaultSelectService } from "./vault-select/vault-select.service";
 import { PopupUtilsService } from "../services/popup-utils.service";
+
+import { VaultSelectService } from "./vault-select/vault-select.service";
 
 const ComponentId = "CiphersComponent";
 
