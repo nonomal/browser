@@ -20,8 +20,9 @@ import { BrowserGroupingsComponentState } from "src/models/browserGroupingsCompo
 
 import { BrowserApi } from "../../browser/browserApi";
 import { StateService } from "../../services/abstractions/state.service";
-import { VaultSelectService } from "./vault-select/vault-select.service";
 import { PopupUtilsService } from "../services/popup-utils.service";
+
+import { VaultSelectService } from "./vault-select/vault-select.service";
 
 const ComponentId = "VaultComponent";
 
@@ -200,7 +201,7 @@ export class VaultFilterComponent implements OnInit, OnDestroy {
     } else {
       this.folders = folders;
     }
-    this.nestedFolders = await this.folderService.getAllNested(this.folders);
+    this.nestedFolders = await this.folderService.getAllNested();
   }
 
   async search(timeout: number = null) {
