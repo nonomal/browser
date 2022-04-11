@@ -49,10 +49,10 @@ import { AutofillService } from "../../services/abstractions/autofill.service";
 import { StateService as StateServiceAbstraction } from "../../services/abstractions/state.service";
 import BrowserMessagingService from "../../services/browserMessaging.service";
 import BrowserMessagingPrivateModePopupService from "../../services/browserMessagingPrivateModePopup.service";
+import { VaultSelectService } from "../vault/vault-select/vault-select.service";
 
 import { DebounceNavigationService } from "./debounceNavigationService";
 import { LockGuardService } from "./lock-guard.service";
-import { OrganizationFilterService } from "./organization-filter.service";
 import { PasswordRepromptService } from "./password-reprompt.service";
 import { PopupSearchService } from "./popup-search.service";
 import { PopupUtilsService } from "./popup-utils.service";
@@ -298,8 +298,8 @@ export function initFactory(
       deps: [],
     },
     {
-      provide: OrganizationFilterService,
-      useFactory: getBgService<OrganizationFilterService>("organizationFilterService"),
+      provide: VaultSelectService,
+      useFactory: getBgService<VaultSelectService>("vaultSelectService"),
     },
     {
       provide: ProviderService,

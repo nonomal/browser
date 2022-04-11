@@ -71,8 +71,8 @@ import { WebCryptoFunctionService } from "jslib-common/services/webCryptoFunctio
 import { BrowserApi } from "../browser/browserApi";
 import { SafariApp } from "../browser/safariApp";
 import { Account } from "../models/account";
-import { OrganizationFilterService } from "../popup/services/organization-filter.service";
 import { PopupUtilsService } from "../popup/services/popup-utils.service";
+import { VaultSelectService } from "../popup/vault/vault-select/vault-select.service";
 import { AutofillService as AutofillServiceAbstraction } from "../services/abstractions/autofill.service";
 import { StateService as StateServiceAbstraction } from "../services/abstractions/state.service";
 import AutofillService from "../services/autofill.service";
@@ -137,7 +137,7 @@ export default class MainBackground {
   keyConnectorService: KeyConnectorServiceAbstraction;
   userVerificationService: UserVerificationServiceAbstraction;
   twoFactorService: TwoFactorServiceAbstraction;
-  organizationFilterService: OrganizationFilterService;
+  vaultSelectService: VaultSelectService;
 
   onUpdatedRan: boolean;
   onReplacedRan: boolean;
@@ -266,7 +266,7 @@ export default class MainBackground {
       this.organizationService,
       this.cryptoFunctionService
     );
-    this.organizationFilterService = new OrganizationFilterService();
+    this.vaultSelectService = new VaultSelectService();
 
     const vaultTimeoutServiceCallbacks = {
       locked: async (userId?: string) => {
@@ -585,7 +585,7 @@ export default class MainBackground {
       this.passwordGenerationService.clear(userId),
       this.vaultTimeoutService.clear(userId),
       this.keyConnectorService.clear(),
-      this.organizationFilterService.clear(),
+      this.vaultSelectService.clear(),
     ]);
 
     await this.stateService.clean({ userId: userId });

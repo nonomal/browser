@@ -17,7 +17,7 @@ import { CipherView } from "jslib-common/models/view/cipherView";
 
 import { BrowserApi } from "../../browser/browserApi";
 import { AutofillService } from "../../services/abstractions/autofill.service";
-import { OrganizationFilterService } from "../services/organization-filter.service";
+import { VaultSelectService } from "./vault-select/vault-select.service";
 import { PopupUtilsService } from "../services/popup-utils.service";
 
 const BroadcasterSubscriptionId = "CurrentTabComponent";
@@ -59,7 +59,7 @@ export class CurrentTabComponent implements OnInit, OnDestroy {
     private stateService: StateService,
     private passwordRepromptService: PasswordRepromptService,
     private organizationService: OrganizationService,
-    private organizationFilterService: OrganizationFilterService
+    private vaultSelectService: VaultSelectService
   ) {}
 
   async ngOnInit() {
@@ -189,11 +189,11 @@ export class CurrentTabComponent implements OnInit, OnDestroy {
   }
 
   vaultFilterChanged() {
-    this.loaded = false;
     this.load();
   }
 
   private async load() {
+    this.loaded = false;
     const tab = await BrowserApi.getTabFromCurrentWindow();
     if (tab != null) {
       this.url = tab.url;
@@ -232,7 +232,7 @@ export class CurrentTabComponent implements OnInit, OnDestroy {
     this.identityCiphers = [];
 
     ciphers.forEach((c) => {
-      if (!this.organizationFilterService.filterCipher(c)) {
+      if (!this.vaultSelectService.filterCipher(c)) {
         switch (c.type) {
           case CipherType.Login:
             this.loginCiphers.push(c);

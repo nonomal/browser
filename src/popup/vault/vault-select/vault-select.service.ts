@@ -3,7 +3,7 @@ import { Injectable } from "@angular/core";
 import { CipherView } from "jslib-common/models/view/cipherView";
 
 @Injectable()
-export class OrganizationFilterService {
+export class VaultSelectService {
   allVaults = "allVaults";
   myVault = "myVault";
   selectedFilter: string;

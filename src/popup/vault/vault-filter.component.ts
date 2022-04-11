@@ -20,7 +20,7 @@ import { BrowserGroupingsComponentState } from "src/models/browserGroupingsCompo
 
 import { BrowserApi } from "../../browser/browserApi";
 import { StateService } from "../../services/abstractions/state.service";
-import { OrganizationFilterService } from "../services/organization-filter.service";
+import { VaultSelectService } from "./vault-select/vault-select.service";
 import { PopupUtilsService } from "../services/popup-utils.service";
 
 const ComponentId = "VaultComponent";
@@ -86,7 +86,7 @@ export class VaultFilterComponent implements OnInit, OnDestroy {
     private searchService: SearchService,
     private location: Location,
     private browserStateService: StateService,
-    private organizationFilterService: OrganizationFilterService
+    private vaultSelectService: VaultSelectService
   ) {
     this.noFolderListSize = 100;
   }
@@ -152,7 +152,7 @@ export class VaultFilterComponent implements OnInit, OnDestroy {
   }
 
   async load() {
-    this.vaultFilter = this.organizationFilterService.getVaultFilter();
+    this.vaultFilter = this.vaultSelectService.getVaultFilter();
 
     this.updateOrgFilter();
     await this.loadFolders(this.selectedOrganization);
@@ -216,7 +216,7 @@ export class VaultFilterComponent implements OnInit, OnDestroy {
         filterDeleted,
         this.allCiphers
       );
-      this.ciphers = this.ciphers.filter((c) => !this.organizationFilterService.filterCipher(c));
+      this.ciphers = this.ciphers.filter((c) => !this.vaultSelectService.filterCipher(c));
       return;
     }
     this.searchPending = true;
@@ -231,7 +231,7 @@ export class VaultFilterComponent implements OnInit, OnDestroy {
           this.allCiphers
         );
       }
-      this.ciphers = this.ciphers.filter((c) => !this.organizationFilterService.filterCipher(c));
+      this.ciphers = this.ciphers.filter((c) => !this.vaultSelectService.filterCipher(c));
       this.searchPending = false;
     }, timeout);
   }
@@ -291,11 +291,11 @@ export class VaultFilterComponent implements OnInit, OnDestroy {
   }
 
   updateOrgFilter() {
-    this.vaultFilter = this.organizationFilterService.getVaultFilter();
+    this.vaultFilter = this.vaultSelectService.getVaultFilter();
     if (this.vaultFilter === "myVault") {
       this.selectedOrganization = null;
     } else if (this.vaultFilter === "allVaults" || this.vaultFilter == null) {
-      this.vaultFilter = this.organizationFilterService.allVaults;
+      this.vaultFilter = this.vaultSelectService.allVaults;
       this.selectedOrganization = null;
     } else {
       this.selectedOrganization = this.vaultFilter;
@@ -310,11 +310,11 @@ export class VaultFilterComponent implements OnInit, OnDestroy {
     const typeCounts = new Map<CipherType, number>();
 
     this.deletedCount = this.allCiphers.filter(
-      (c) => c.isDeleted && !this.organizationFilterService.filterCipher(c)
+      (c) => c.isDeleted && !this.vaultSelectService.filterCipher(c)
     ).length;
 
     this.ciphers?.forEach((c) => {
-      if (!this.organizationFilterService.filterCipher(c)) {
+      if (!this.vaultSelectService.filterCipher(c)) {
         if (c.isDeleted) {
           return;
         }
