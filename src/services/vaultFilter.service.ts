@@ -8,7 +8,6 @@ import { PolicyService } from "jslib-common/abstractions/policy.service";
 import { StateService } from "jslib-common/abstractions/state.service";
 import { CipherView } from "jslib-common/models/view/cipherView";
 
-
 export class VaultFilterService extends BaseVaultFilterService {
   vaultFilter: VaultFilter = new VaultFilter();
 
