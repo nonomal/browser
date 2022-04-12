@@ -8,7 +8,7 @@ import { PolicyService } from "jslib-common/abstractions/policy.service";
 import { PolicyType } from "jslib-common/enums/policyType";
 import { Organization } from "jslib-common/models/domain/organization";
 
-import { VaultSelectService } from "./vault-select.service";
+import { VaultFilterService } from "./vault-filter.service";
 
 @Component({
   selector: "app-vault-select",
@@ -55,17 +55,18 @@ export class VaultSelectComponent implements OnInit {
 
   constructor(
     private organizationService: OrganizationService,
-    private vaultSelectService: VaultSelectService,
+    private vaultFilterService: VaultFilterService,
     private i18nService: I18nService,
     private policyService: PolicyService
   ) {}
 
   async ngOnInit() {
-    this.vaultFilter = this.vaultSelectService.getVaultFilter();
+    this.vaultFilter = this.vaultFilterService.getVaultFilter();
     this.organizations = await this.organizationService.getAll();
     this.enforcePersonalOwnwership = await this.policyService.policyAppliesToUser(
       PolicyType.PersonalOwnership
     );
+    console.log(this.organizations, this.enforcePersonalOwnwership);
 
     if (
       (!this.enforcePersonalOwnwership && this.organizations.length > 0) ||
@@ -73,14 +74,14 @@ export class VaultSelectComponent implements OnInit {
     ) {
       this.showOrganizations = true;
 
-      if (this.enforcePersonalOwnwership && this.vaultFilter == this.vaultSelectService.allVaults) {
-        this.vaultSelectService.setVaultFilter(this.organizations[0].id);
+      if (this.enforcePersonalOwnwership && this.vaultFilter == this.vaultFilterService.allVaults) {
+        this.vaultFilterService.setVaultFilter(this.organizations[0].id);
         this.vaultFilter = this.organizations[0].id;
         this.vaultFilterDisplay = this.organizations.find((o) => o.id === this.vaultFilter).name;
       } else if (this.vaultFilter === "myVault") {
-        this.vaultFilterDisplay = this.i18nService.t(this.vaultSelectService.myVault);
+        this.vaultFilterDisplay = this.i18nService.t(this.vaultFilterService.myVault);
       } else if (this.vaultFilter === "allVaults") {
-        this.vaultFilterDisplay = this.i18nService.t(this.vaultSelectService.allVaults);
+        this.vaultFilterDisplay = this.i18nService.t(this.vaultFilterService.allVaults);
       } else {
         this.vaultFilterDisplay = this.organizations.find((o) => o.id === this.vaultFilter).name;
       }
@@ -98,19 +99,19 @@ export class VaultSelectComponent implements OnInit {
 
   selectOrganization(organization: Organization) {
     this.vaultFilterDisplay = organization.name;
-    this.vaultSelectService.setVaultFilter(organization.id);
+    this.vaultFilterService.setVaultFilter(organization.id);
     this.onVaultSelectionChanged.emit();
     this.close();
   }
   selectAllVaults() {
-    this.vaultFilterDisplay = this.i18nService.t(this.vaultSelectService.allVaults);
-    this.vaultSelectService.setVaultFilter(this.vaultSelectService.allVaults);
+    this.vaultFilterDisplay = this.i18nService.t(this.vaultFilterService.allVaults);
+    this.vaultFilterService.setVaultFilter(this.vaultFilterService.allVaults);
     this.onVaultSelectionChanged.emit();
     this.close();
   }
   selectMyVault() {
-    this.vaultFilterDisplay = this.i18nService.t(this.vaultSelectService.myVault);
-    this.vaultSelectService.setVaultFilter(this.vaultSelectService.myVault);
+    this.vaultFilterDisplay = this.i18nService.t(this.vaultFilterService.myVault);
+    this.vaultFilterService.setVaultFilter(this.vaultFilterService.myVault);
     this.onVaultSelectionChanged.emit();
     this.close();
   }

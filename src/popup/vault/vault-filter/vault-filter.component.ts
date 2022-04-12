@@ -18,11 +18,11 @@ import { FolderView } from "jslib-common/models/view/folderView";
 
 import { BrowserGroupingsComponentState } from "src/models/browserGroupingsComponentState";
 
-import { BrowserApi } from "../../browser/browserApi";
-import { StateService } from "../../services/abstractions/state.service";
-import { PopupUtilsService } from "../services/popup-utils.service";
+import { BrowserApi } from "../../../browser/browserApi";
+import { StateService } from "../../../services/abstractions/state.service";
+import { PopupUtilsService } from "../../services/popup-utils.service";
 
-import { VaultSelectService } from "./vault-select/vault-select.service";
+import { VaultFilterService } from "./vault-filter.service";
 
 const ComponentId = "VaultComponent";
 
@@ -87,7 +87,7 @@ export class VaultFilterComponent implements OnInit, OnDestroy {
     private searchService: SearchService,
     private location: Location,
     private browserStateService: StateService,
-    private vaultSelectService: VaultSelectService
+    private vaultFilterService: VaultFilterService
   ) {
     this.noFolderListSize = 100;
   }
@@ -153,7 +153,7 @@ export class VaultFilterComponent implements OnInit, OnDestroy {
   }
 
   async load() {
-    this.vaultFilter = this.vaultSelectService.getVaultFilter();
+    this.vaultFilter = this.vaultFilterService.getVaultFilter();
 
     this.updateOrgFilter();
     await this.loadFolders(this.selectedOrganization);
@@ -217,7 +217,9 @@ export class VaultFilterComponent implements OnInit, OnDestroy {
         filterDeleted,
         this.allCiphers
       );
-      this.ciphers = this.ciphers.filter((c) => !this.vaultSelectService.filterCipher(c));
+      this.ciphers = this.ciphers.filter(
+        (c) => !this.vaultFilterService.filterCipherForSelectedVault(c)
+      );
       return;
     }
     this.searchPending = true;
@@ -232,7 +234,9 @@ export class VaultFilterComponent implements OnInit, OnDestroy {
           this.allCiphers
         );
       }
-      this.ciphers = this.ciphers.filter((c) => !this.vaultSelectService.filterCipher(c));
+      this.ciphers = this.ciphers.filter(
+        (c) => !this.vaultFilterService.filterCipherForSelectedVault(c)
+      );
       this.searchPending = false;
     }, timeout);
   }
@@ -292,11 +296,11 @@ export class VaultFilterComponent implements OnInit, OnDestroy {
   }
 
   updateOrgFilter() {
-    this.vaultFilter = this.vaultSelectService.getVaultFilter();
+    this.vaultFilter = this.vaultFilterService.getVaultFilter();
     if (this.vaultFilter === "myVault") {
       this.selectedOrganization = null;
     } else if (this.vaultFilter === "allVaults" || this.vaultFilter == null) {
-      this.vaultFilter = this.vaultSelectService.allVaults;
+      this.vaultFilter = this.vaultFilterService.allVaults;
       this.selectedOrganization = null;
     } else {
       this.selectedOrganization = this.vaultFilter;
@@ -311,11 +315,11 @@ export class VaultFilterComponent implements OnInit, OnDestroy {
     const typeCounts = new Map<CipherType, number>();
 
     this.deletedCount = this.allCiphers.filter(
-      (c) => c.isDeleted && !this.vaultSelectService.filterCipher(c)
+      (c) => c.isDeleted && !this.vaultFilterService.filterCipherForSelectedVault(c)
     ).length;
 
     this.ciphers?.forEach((c) => {
-      if (!this.vaultSelectService.filterCipher(c)) {
+      if (!this.vaultFilterService.filterCipherForSelectedVault(c)) {
         if (c.isDeleted) {
           return;
         }

@@ -109,8 +109,8 @@ import { CollectionsComponent } from "./vault/collections.component";
 import { CurrentTabComponent } from "./vault/current-tab.component";
 import { PasswordHistoryComponent } from "./vault/password-history.component";
 import { ShareComponent } from "./vault/share.component";
-import { VaultFilterComponent } from "./vault/vault-filter.component";
-import { VaultSelectComponent } from "./vault/vault-select/vault-select.component";
+import { VaultFilterComponent } from "./vault/vault-filter/vault-filter.component";
+import { VaultSelectComponent } from "./vault/vault-filter/vault-select.component";
 import { ViewCustomFieldsComponent } from "./vault/view-custom-fields.component";
 import { ViewComponent } from "./vault/view.component";
 
@@ -231,11 +231,11 @@ registerLocaleData(localeZhTw, "zh-TW");
     TwoFactorOptionsComponent,
     UpdateTempPasswordComponent,
     VaultTimeoutInputComponent,
-    VaultSelectComponent,
     VerifyMasterPasswordComponent,
     ViewComponent,
     ViewCustomFieldsComponent,
     RemovePasswordComponent,
+    VaultSelectComponent,
   ],
   entryComponents: [],
   providers: [CurrencyPipe, DatePipe],

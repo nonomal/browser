@@ -74,7 +74,7 @@ import { BrowserApi } from "../browser/browserApi";
 import { SafariApp } from "../browser/safariApp";
 import { Account } from "../models/account";
 import { PopupUtilsService } from "../popup/services/popup-utils.service";
-import { VaultSelectService } from "../popup/vault/vault-select/vault-select.service";
+import { VaultFilterService } from "../popup/vault/vault-filter/vault-filter.service";
 import { AutofillService as AutofillServiceAbstraction } from "../services/abstractions/autofill.service";
 import { StateService as StateServiceAbstraction } from "../services/abstractions/state.service";
 import AutofillService from "../services/autofill.service";
@@ -138,7 +138,7 @@ export default class MainBackground {
   keyConnectorService: KeyConnectorServiceAbstraction;
   userVerificationService: UserVerificationServiceAbstraction;
   twoFactorService: TwoFactorServiceAbstraction;
-  vaultSelectService: VaultSelectService;
+  vaultFilterService: VaultFilterService;
   usernameGenerationService: UsernameGenerationServiceAbstraction;
 
   onUpdatedRan: boolean;
@@ -268,7 +268,14 @@ export default class MainBackground {
       this.organizationService,
       this.cryptoFunctionService
     );
-    this.vaultSelectService = new VaultSelectService();
+    this.vaultFilterService = new VaultFilterService(
+      this.stateService,
+      this.organizationService,
+      this.folderService,
+      this.cipherService,
+      this.collectionService,
+      this.policyService
+    );
 
     const vaultTimeoutServiceCallbacks = {
       locked: async (userId?: string) => {
@@ -588,7 +595,7 @@ export default class MainBackground {
       this.passwordGenerationService.clear(userId),
       this.vaultTimeoutService.clear(userId),
       this.keyConnectorService.clear(),
-      this.vaultSelectService.clear(),
+      this.vaultFilterService.clear(),
     ]);
 
     await this.stateService.clean({ userId: userId });
