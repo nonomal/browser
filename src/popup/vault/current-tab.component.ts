@@ -188,10 +188,6 @@ export class CurrentTabComponent implements OnInit, OnDestroy {
     }
   }
 
-  vaultFilterChanged() {
-    this.load();
-  }
-
   private async load() {
     this.loaded = false;
     const tab = await BrowserApi.getTabFromCurrentWindow();
