@@ -34,7 +34,6 @@ export class VaultFilterService extends BaseVaultFilterService {
   }
 
   getVaultFilter() {
-    console.log("selected filter: " + this.selectedFilter);
     return this.selectedFilter;
   }
 
@@ -53,7 +52,6 @@ export class VaultFilterService extends BaseVaultFilterService {
   }
 
   clear() {
-    console.log("clearing vault selection");
     this.setVaultFilter(this.allVaults);
   }
 

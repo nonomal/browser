@@ -5,8 +5,6 @@ import { first } from "rxjs/operators";
 
 import { BroadcasterService } from "jslib-common/abstractions/broadcaster.service";
 import { CipherService } from "jslib-common/abstractions/cipher.service";
-import { CollectionService } from "jslib-common/abstractions/collection.service";
-import { FolderService } from "jslib-common/abstractions/folder.service";
 import { PlatformUtilsService } from "jslib-common/abstractions/platformUtils.service";
 import { SearchService } from "jslib-common/abstractions/search.service";
 import { SyncService } from "jslib-common/abstractions/sync.service";
@@ -62,6 +60,7 @@ export class VaultFilterComponent implements OnInit, OnDestroy {
   deletedCount = 0;
   vaultFilter = "";
   selectedOrganization: string = null;
+  showCollections = true;
 
   private loadedTimeout: number;
   private selectedTimeout: number;
@@ -73,8 +72,6 @@ export class VaultFilterComponent implements OnInit, OnDestroy {
   private allCiphers: CipherView[] = null;
 
   constructor(
-    private collectionService: CollectionService,
-    private folderService: FolderService,
     private cipherService: CipherService,
     private router: Router,
     private ngZone: NgZone,
@@ -156,8 +153,7 @@ export class VaultFilterComponent implements OnInit, OnDestroy {
     this.vaultFilter = this.vaultFilterService.getVaultFilter();
 
     this.updateOrgFilter();
-    await this.loadFolders(this.selectedOrganization);
-    await this.loadCollections(this.selectedOrganization);
+    await this.loadCollectionsAndFolders();
     await this.loadCiphers();
 
     if (this.showNoFolderCiphers && this.nestedFolders.length > 0) {
@@ -177,31 +173,16 @@ export class VaultFilterComponent implements OnInit, OnDestroy {
     this.getCounts();
   }
 
-  async loadCollections(organizationId?: string) {
-    const collections = await this.collectionService.getAllDecrypted();
-    if (organizationId != null) {
-      this.collections = collections.filter((c) => c.organizationId === organizationId);
-    } else {
-      this.collections = collections;
-    }
-    this.nestedCollections = await this.collectionService.getAllNested(this.collections);
+  async loadCollections() {
+    const allCollections = await this.vaultFilterService.buildCollections();
+    this.collections = allCollections.fullList;
+    this.nestedCollections = allCollections.nestedList;
   }
 
-  async loadFolders(organizationId?: string) {
-    const folders = await this.folderService.getAllDecrypted();
-    if (organizationId != null) {
-      const ciphers = await this.cipherService.getAllDecrypted();
-      const orgCiphers = ciphers.filter((c) => c.organizationId == organizationId);
-      this.folders = folders.filter(
-        (f) =>
-          f.id != null &&
-          (orgCiphers.filter((oc) => oc.folderId == f.id).length > 0 ||
-            ciphers.filter((c) => c.folderId == f.id).length < 1)
-      );
-    } else {
-      this.folders = folders;
-    }
-    this.nestedFolders = await this.folderService.getAllNested();
+  async loadFolders() {
+    const allFolders = await this.vaultFilterService.buildFolders(this.selectedOrganization);
+    this.folders = allFolders.fullList;
+    this.nestedFolders = await allFolders.nestedList;
   }
 
   async search(timeout: number = null) {
@@ -382,8 +363,9 @@ export class VaultFilterComponent implements OnInit, OnDestroy {
   }
 
   private async loadCollectionsAndFolders() {
-    await this.loadCollections(this.selectedOrganization);
-    await this.loadFolders(this.selectedOrganization);
+    this.showCollections = !this.vaultFilterService.myVaultOnly;
+    await this.loadFolders();
+    await this.loadCollections();
   }
 
   private async saveState() {

@@ -53,20 +53,13 @@ export class VaultSelectComponent implements OnInit {
     },
   ];
 
-  constructor(
-    private organizationService: OrganizationService,
-    private vaultFilterService: VaultFilterService,
-    private i18nService: I18nService,
-    private policyService: PolicyService
-  ) {}
+  constructor(private vaultFilterService: VaultFilterService, private i18nService: I18nService) {}
 
   async ngOnInit() {
     this.vaultFilter = this.vaultFilterService.getVaultFilter();
-    this.organizations = await this.organizationService.getAll();
-    this.enforcePersonalOwnwership = await this.policyService.policyAppliesToUser(
-      PolicyType.PersonalOwnership
-    );
-    console.log(this.organizations, this.enforcePersonalOwnwership);
+    this.organizations = await this.vaultFilterService.buildOrganizations();
+    this.enforcePersonalOwnwership =
+      await this.vaultFilterService.checkForPersonalOwnershipPolicy();
 
     if (
       (!this.enforcePersonalOwnwership && this.organizations.length > 0) ||
