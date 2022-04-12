@@ -300,7 +300,16 @@ export function initFactory(
     },
     {
       provide: VaultFilterService,
-      useFactory: getBgService<VaultFilterService>("vaultFilterService"),
+      useFactory: () => {
+        return new VaultFilterService(
+          getBgService<StateServiceAbstraction>("stateService")(),
+          getBgService<OrganizationService>("organizationService")(),
+          getBgService<FolderService>("folderService")(),
+          getBgService<CipherService>("cipherService")(),
+          getBgService<CollectionService>("collectionService")(),
+          getBgService<PolicyService>("policyService")()
+        );
+      },
       deps: [],
     },
     {
