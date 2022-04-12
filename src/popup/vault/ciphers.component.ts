@@ -25,6 +25,7 @@ import { StateService } from "../../services/abstractions/state.service";
 import { PopupUtilsService } from "../services/popup-utils.service";
 
 import { VaultFilterService } from "./vault-filter/vault-filter.service";
+import { VaultFilter } from "jslib-angular/modules/vault-filter/models/vault-filter.model";
 
 const ComponentId = "CiphersComponent";
 
@@ -42,7 +43,7 @@ export class CiphersComponent extends BaseCiphersComponent implements OnInit, On
   nestedCollections: TreeNode<CollectionView>[];
   searchTypeSearch = false;
   showOrganizations = false;
-  vaultFilter: string;
+  vaultFilter: VaultFilter;
   deleted = true;
   noneFolder = false;
 
@@ -90,7 +91,7 @@ export class CiphersComponent extends BaseCiphersComponent implements OnInit, On
       if (params.deleted) {
         this.groupingTitle = this.i18nService.t("trash");
         this.searchPlaceholder = this.i18nService.t("searchTrash");
-        await this.load(null, true);
+        await this.load(this.buildFilter(), true);
       } else if (params.type) {
         this.searchPlaceholder = this.i18nService.t("searchType");
         this.type = parseInt(params.type, null);
@@ -269,13 +270,10 @@ export class CiphersComponent extends BaseCiphersComponent implements OnInit, On
         cipherPassesFilter =
           cipher.collectionIds != null && cipher.collectionIds.indexOf(this.collectionId) > -1;
       }
-      if (
-        this.vaultFilter === this.vaultFilterService.selectedOrganizationId &&
-        cipherPassesFilter
-      ) {
-        cipherPassesFilter = cipher.organizationId === this.vaultFilter;
+      if (this.vaultFilter.selectedOrganizationId != null && cipherPassesFilter) {
+        cipherPassesFilter = cipher.organizationId === this.vaultFilter.selectedOrganizationId;
       }
-      if (this.vaultFilter === this.vaultFilterService.myVault && cipherPassesFilter) {
+      if (this.vaultFilter.myVaultOnly && cipherPassesFilter) {
         cipherPassesFilter = cipher.organizationId === null;
       }
       return cipherPassesFilter;

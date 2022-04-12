@@ -1,6 +1,7 @@
 import { animate, state, style, transition, trigger } from "@angular/animations";
 import { ConnectedPosition } from "@angular/cdk/overlay";
 import { Component, EventEmitter, OnInit, Output } from "@angular/core";
+import { VaultFilter } from "jslib-angular/modules/vault-filter/models/vault-filter.model";
 
 import { I18nService } from "jslib-common/abstractions/i18n.service";
 import { OrganizationService } from "jslib-common/abstractions/organization.service";
@@ -41,7 +42,7 @@ export class VaultSelectComponent implements OnInit {
   loaded = false;
   showOrganizations = false;
   organizations: Organization[];
-  vaultFilter: string;
+  vaultFilter: VaultFilter = new VaultFilter();
   vaultFilterDisplay = "";
   enforcePersonalOwnwership = false;
   overlayPostition: ConnectedPosition[] = [
@@ -67,16 +68,20 @@ export class VaultSelectComponent implements OnInit {
     ) {
       this.showOrganizations = true;
 
-      if (this.enforcePersonalOwnwership && this.vaultFilter == this.vaultFilterService.allVaults) {
+      if (this.enforcePersonalOwnwership && !this.vaultFilter.myVaultOnly) {
         this.vaultFilterService.setVaultFilter(this.organizations[0].id);
-        this.vaultFilter = this.organizations[0].id;
-        this.vaultFilterDisplay = this.organizations.find((o) => o.id === this.vaultFilter).name;
-      } else if (this.vaultFilter === "myVault") {
+        this.vaultFilter.selectedOrganizationId = this.organizations[0].id;
+        this.vaultFilterDisplay = this.organizations.find(
+          (o) => o.id === this.vaultFilter.selectedOrganizationId
+        ).name;
+      } else if (this.vaultFilter.myVaultOnly) {
         this.vaultFilterDisplay = this.i18nService.t(this.vaultFilterService.myVault);
-      } else if (this.vaultFilter === "allVaults") {
-        this.vaultFilterDisplay = this.i18nService.t(this.vaultFilterService.allVaults);
+      } else if (this.vaultFilter.selectedOrganizationId != null) {
+        this.vaultFilterDisplay = this.organizations.find(
+          (o) => o.id === this.vaultFilter.selectedOrganizationId
+        ).name;
       } else {
-        this.vaultFilterDisplay = this.organizations.find((o) => o.id === this.vaultFilter).name;
+        this.vaultFilterDisplay = this.i18nService.t(this.vaultFilterService.allVaults);
       }
     }
     this.loaded = true;

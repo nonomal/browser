@@ -21,6 +21,7 @@ import { StateService } from "../../../services/abstractions/state.service";
 import { PopupUtilsService } from "../../services/popup-utils.service";
 
 import { VaultFilterService } from "./vault-filter.service";
+import { VaultFilter } from "jslib-angular/modules/vault-filter/models/vault-filter.model";
 
 const ComponentId = "VaultComponent";
 
@@ -58,7 +59,7 @@ export class VaultFilterComponent implements OnInit, OnDestroy {
   searchPending = false;
   searchTypeSearch = false;
   deletedCount = 0;
-  vaultFilter = "";
+  vaultFilter: VaultFilter;
   selectedOrganization: string = null;
   showCollections = true;
 
@@ -152,7 +153,7 @@ export class VaultFilterComponent implements OnInit, OnDestroy {
   async load() {
     this.vaultFilter = this.vaultFilterService.getVaultFilter();
 
-    this.updateOrgFilter();
+    this.updateSelectedOrg();
     await this.loadCollectionsAndFolders();
     await this.loadCiphers();
 
@@ -271,20 +272,17 @@ export class VaultFilterComponent implements OnInit, OnDestroy {
     if (this.showSearching) {
       await this.search();
     }
-    this.updateOrgFilter();
+    this.updateSelectedOrg();
     await this.loadCollectionsAndFolders();
     this.getCounts();
   }
 
-  updateOrgFilter() {
+  updateSelectedOrg() {
     this.vaultFilter = this.vaultFilterService.getVaultFilter();
-    if (this.vaultFilter === "myVault") {
-      this.selectedOrganization = null;
-    } else if (this.vaultFilter === "allVaults" || this.vaultFilter == null) {
-      this.vaultFilter = this.vaultFilterService.allVaults;
-      this.selectedOrganization = null;
+    if (this.vaultFilter.selectedOrganizationId != null) {
+      this.selectedOrganization = this.vaultFilter.selectedOrganizationId;
     } else {
-      this.selectedOrganization = this.vaultFilter;
+      this.selectedOrganization = null;
     }
   }
 
@@ -363,7 +361,7 @@ export class VaultFilterComponent implements OnInit, OnDestroy {
   }
 
   private async loadCollectionsAndFolders() {
-    this.showCollections = !this.vaultFilterService.myVaultOnly;
+    this.showCollections = !this.vaultFilter.myVaultOnly;
     await this.loadFolders();
     await this.loadCollections();
   }

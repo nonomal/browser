@@ -7,12 +7,13 @@ import { PolicyService } from "jslib-common/abstractions/policy.service";
 import { StateService } from "jslib-common/abstractions/state.service";
 import { CipherView } from "jslib-common/models/view/cipherView";
 
+import { VaultFilter } from "jslib-angular/modules/vault-filter/models/vault-filter.model";
+
 export class VaultFilterService extends BaseVaultFilterService {
+  vaultFilter: VaultFilter = new VaultFilter();
+
   allVaults = "allVaults";
   myVault = "myVault";
-  selectedFilter: string;
-  selectedOrganizationId: string;
-  myVaultOnly = false;
 
   constructor(
     stateService: StateService,
@@ -30,25 +31,25 @@ export class VaultFilterService extends BaseVaultFilterService {
       collectionService,
       policyService
     );
-    this.selectedFilter = this.allVaults;
+    this.vaultFilter.myVaultOnly = false;
+    this.vaultFilter.selectedOrganizationId = null;
   }
 
   getVaultFilter() {
-    return this.selectedFilter;
+    return this.vaultFilter;
   }
 
   setVaultFilter(filter: string) {
     if (filter === this.allVaults) {
-      this.myVaultOnly = false;
-      this.selectedOrganizationId = null;
+      this.vaultFilter.myVaultOnly = false;
+      this.vaultFilter.selectedOrganizationId = null;
     } else if (filter === this.myVault) {
-      this.myVaultOnly = true;
-      this.selectedOrganizationId = null;
+      this.vaultFilter.myVaultOnly = true;
+      this.vaultFilter.selectedOrganizationId = null;
     } else {
-      this.myVaultOnly = false;
-      this.selectedOrganizationId = filter;
+      this.vaultFilter.myVaultOnly = false;
+      this.vaultFilter.selectedOrganizationId = filter;
     }
-    this.selectedFilter = filter;
   }
 
   clear() {
@@ -56,14 +57,14 @@ export class VaultFilterService extends BaseVaultFilterService {
   }
 
   filterCipherForSelectedVault(cipher: CipherView) {
-    if (!this.selectedOrganizationId && !this.myVaultOnly) {
+    if (!this.vaultFilter.selectedOrganizationId && !this.vaultFilter.myVaultOnly) {
       return false;
     }
-    if (this.selectedOrganizationId) {
-      if (cipher.organizationId === this.selectedOrganizationId) {
+    if (this.vaultFilter.selectedOrganizationId) {
+      if (cipher.organizationId === this.vaultFilter.selectedOrganizationId) {
         return false;
       }
-    } else if (this.myVaultOnly) {
+    } else if (this.vaultFilter.myVaultOnly) {
       if (!cipher.organizationId) {
         return false;
       }
