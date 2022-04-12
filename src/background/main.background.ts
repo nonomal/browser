@@ -74,7 +74,6 @@ import { BrowserApi } from "../browser/browserApi";
 import { SafariApp } from "../browser/safariApp";
 import { Account } from "../models/account";
 import { PopupUtilsService } from "../popup/services/popup-utils.service";
-import { VaultFilterService } from "../popup/vault/vault-filter/vault-filter.service";
 import { AutofillService as AutofillServiceAbstraction } from "../services/abstractions/autofill.service";
 import { StateService as StateServiceAbstraction } from "../services/abstractions/state.service";
 import AutofillService from "../services/autofill.service";
@@ -85,6 +84,7 @@ import BrowserPlatformUtilsService from "../services/browserPlatformUtils.servic
 import BrowserStorageService from "../services/browserStorage.service";
 import I18nService from "../services/i18n.service";
 import { StateService } from "../services/state.service";
+import { VaultFilterService } from "../services/vaultFilter.service";
 import VaultTimeoutService from "../services/vaultTimeout.service";
 
 import CommandsBackground from "./commands.background";

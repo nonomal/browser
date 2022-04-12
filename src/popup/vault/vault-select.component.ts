@@ -9,7 +9,7 @@ import { PolicyService } from "jslib-common/abstractions/policy.service";
 import { PolicyType } from "jslib-common/enums/policyType";
 import { Organization } from "jslib-common/models/domain/organization";
 
-import { VaultFilterService } from "./vault-filter.service";
+import { VaultFilterService } from "../../services/vaultFilter.service";
 
 @Component({
   selector: "app-vault-select",

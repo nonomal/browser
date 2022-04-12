@@ -50,7 +50,7 @@ import { AutofillService } from "../../services/abstractions/autofill.service";
 import { StateService as StateServiceAbstraction } from "../../services/abstractions/state.service";
 import BrowserMessagingService from "../../services/browserMessaging.service";
 import BrowserMessagingPrivateModePopupService from "../../services/browserMessagingPrivateModePopup.service";
-import { VaultFilterService } from "../vault/vault-filter/vault-filter.service";
+import { VaultFilterService } from "../../services/vaultFilter.service";
 
 import { DebounceNavigationService } from "./debounceNavigationService";
 import { LockGuardService } from "./lock-guard.service";

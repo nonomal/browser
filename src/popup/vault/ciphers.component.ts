@@ -23,9 +23,8 @@ import { BrowserComponentState } from "src/models/browserComponentState";
 
 import { BrowserApi } from "../../browser/browserApi";
 import { StateService } from "../../services/abstractions/state.service";
+import { VaultFilterService } from "../../services/vaultFilter.service";
 import { PopupUtilsService } from "../services/popup-utils.service";
-
-import { VaultFilterService } from "./vault-filter/vault-filter.service";
 
 const ComponentId = "CiphersComponent";
 
@@ -46,6 +45,7 @@ export class CiphersComponent extends BaseCiphersComponent implements OnInit, On
   vaultFilter: VaultFilter;
   deleted = true;
   noneFolder = false;
+  showVaultFilter = false;
 
   private selectedTimeout: number;
   private preventSelected = false;
@@ -89,10 +89,12 @@ export class CiphersComponent extends BaseCiphersComponent implements OnInit, On
       }
 
       if (params.deleted) {
+        this.showVaultFilter = true;
         this.groupingTitle = this.i18nService.t("trash");
         this.searchPlaceholder = this.i18nService.t("searchTrash");
         await this.load(this.buildFilter(), true);
       } else if (params.type) {
+        this.showVaultFilter = true;
         this.searchPlaceholder = this.i18nService.t("searchType");
         this.type = parseInt(params.type, null);
         switch (this.type) {
@@ -113,6 +115,7 @@ export class CiphersComponent extends BaseCiphersComponent implements OnInit, On
         }
         await this.load(this.buildFilter());
       } else if (params.folderId) {
+        this.showVaultFilter = false;
         this.folderId = params.folderId === "none" ? null : params.folderId;
         this.searchPlaceholder = this.i18nService.t("searchFolder");
         if (this.folderId != null) {
@@ -131,6 +134,7 @@ export class CiphersComponent extends BaseCiphersComponent implements OnInit, On
         }
         await this.load(this.buildFilter());
       } else if (params.collectionId) {
+        this.showVaultFilter = false;
         this.collectionId = params.collectionId;
         this.searchPlaceholder = this.i18nService.t("searchCollection");
         const collectionNode = await this.collectionService.getNested(this.collectionId);
@@ -145,6 +149,7 @@ export class CiphersComponent extends BaseCiphersComponent implements OnInit, On
           (c) => c.collectionIds != null && c.collectionIds.indexOf(this.collectionId) > -1
         );
       } else {
+        this.showVaultFilter = true;
         this.groupingTitle = this.i18nService.t("allItems");
         await this.load(this.buildFilter());
       }

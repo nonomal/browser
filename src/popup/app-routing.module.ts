@@ -39,7 +39,7 @@ import { CollectionsComponent } from "./vault/collections.component";
 import { CurrentTabComponent } from "./vault/current-tab.component";
 import { PasswordHistoryComponent } from "./vault/password-history.component";
 import { ShareComponent } from "./vault/share.component";
-import { VaultFilterComponent } from "./vault/vault-filter/vault-filter.component";
+import { VaultFilterComponent } from "./vault/vault-filter.component";
 import { ViewComponent } from "./vault/view.component";
 
 const routes: Routes = [

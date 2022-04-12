@@ -17,11 +17,10 @@ import { FolderView } from "jslib-common/models/view/folderView";
 
 import { BrowserGroupingsComponentState } from "src/models/browserGroupingsComponentState";
 
-import { BrowserApi } from "../../../browser/browserApi";
-import { StateService } from "../../../services/abstractions/state.service";
-import { PopupUtilsService } from "../../services/popup-utils.service";
-
-import { VaultFilterService } from "./vault-filter.service";
+import { BrowserApi } from "../../browser/browserApi";
+import { StateService } from "../../services/abstractions/state.service";
+import { VaultFilterService } from "../../services/vaultFilter.service";
+import { PopupUtilsService } from "../services/popup-utils.service";
 
 const ComponentId = "VaultComponent";
 
