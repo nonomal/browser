@@ -1,3 +1,4 @@
+import { VaultFilter } from "jslib-angular/modules/vault-filter/models/vault-filter.model";
 import { VaultFilterService as BaseVaultFilterService } from "jslib-angular/modules/vault-filter/vault-filter.service";
 import { CipherService } from "jslib-common/abstractions/cipher.service";
 import { CollectionService } from "jslib-common/abstractions/collection.service";
@@ -7,7 +8,6 @@ import { PolicyService } from "jslib-common/abstractions/policy.service";
 import { StateService } from "jslib-common/abstractions/state.service";
 import { CipherView } from "jslib-common/models/view/cipherView";
 
-import { VaultFilter } from "jslib-angular/modules/vault-filter/models/vault-filter.model";
 
 export class VaultFilterService extends BaseVaultFilterService {
   vaultFilter: VaultFilter = new VaultFilter();

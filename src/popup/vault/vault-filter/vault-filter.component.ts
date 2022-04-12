@@ -3,6 +3,7 @@ import { ChangeDetectorRef, Component, NgZone, OnDestroy, OnInit } from "@angula
 import { ActivatedRoute, Router } from "@angular/router";
 import { first } from "rxjs/operators";
 
+import { VaultFilter } from "jslib-angular/modules/vault-filter/models/vault-filter.model";
 import { BroadcasterService } from "jslib-common/abstractions/broadcaster.service";
 import { CipherService } from "jslib-common/abstractions/cipher.service";
 import { PlatformUtilsService } from "jslib-common/abstractions/platformUtils.service";
@@ -21,7 +22,6 @@ import { StateService } from "../../../services/abstractions/state.service";
 import { PopupUtilsService } from "../../services/popup-utils.service";
 
 import { VaultFilterService } from "./vault-filter.service";
-import { VaultFilter } from "jslib-angular/modules/vault-filter/models/vault-filter.model";
 
 const ComponentId = "VaultComponent";
 

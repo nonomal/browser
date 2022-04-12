@@ -4,6 +4,7 @@ import { ActivatedRoute, Router } from "@angular/router";
 import { first } from "rxjs/operators";
 
 import { CiphersComponent as BaseCiphersComponent } from "jslib-angular/components/ciphers.component";
+import { VaultFilter } from "jslib-angular/modules/vault-filter/models/vault-filter.model";
 import { BroadcasterService } from "jslib-common/abstractions/broadcaster.service";
 import { CipherService } from "jslib-common/abstractions/cipher.service";
 import { CollectionService } from "jslib-common/abstractions/collection.service";
@@ -25,7 +26,6 @@ import { StateService } from "../../services/abstractions/state.service";
 import { PopupUtilsService } from "../services/popup-utils.service";
 
 import { VaultFilterService } from "./vault-filter/vault-filter.service";
-import { VaultFilter } from "jslib-angular/modules/vault-filter/models/vault-filter.model";
 
 const ComponentId = "CiphersComponent";
 

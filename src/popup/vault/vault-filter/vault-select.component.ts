@@ -1,8 +1,8 @@
 import { animate, state, style, transition, trigger } from "@angular/animations";
 import { ConnectedPosition } from "@angular/cdk/overlay";
 import { Component, EventEmitter, OnInit, Output } from "@angular/core";
-import { VaultFilter } from "jslib-angular/modules/vault-filter/models/vault-filter.model";
 
+import { VaultFilter } from "jslib-angular/modules/vault-filter/models/vault-filter.model";
 import { I18nService } from "jslib-common/abstractions/i18n.service";
 import { OrganizationService } from "jslib-common/abstractions/organization.service";
 import { PolicyService } from "jslib-common/abstractions/policy.service";
