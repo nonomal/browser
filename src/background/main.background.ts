@@ -84,6 +84,7 @@ import BrowserPlatformUtilsService from "../services/browserPlatformUtils.servic
 import BrowserStorageService from "../services/browserStorage.service";
 import I18nService from "../services/i18n.service";
 import { StateService } from "../services/state.service";
+import { VaultFilterService } from "../services/vaultFilter.service";
 import VaultTimeoutService from "../services/vaultTimeout.service";
 
 import CommandsBackground from "./commands.background";
@@ -137,6 +138,7 @@ export default class MainBackground {
   keyConnectorService: KeyConnectorServiceAbstraction;
   userVerificationService: UserVerificationServiceAbstraction;
   twoFactorService: TwoFactorServiceAbstraction;
+  vaultFilterService: VaultFilterService;
   usernameGenerationService: UsernameGenerationServiceAbstraction;
 
   onUpdatedRan: boolean;
@@ -215,6 +217,7 @@ export default class MainBackground {
       this.tokenService,
       this.platformUtilsService,
       this.environmentService,
+      this.appIdService,
       (expired: boolean) => this.logout(expired)
     );
     this.settingsService = new SettingsService(this.stateService);
@@ -264,6 +267,14 @@ export default class MainBackground {
       this.logService,
       this.organizationService,
       this.cryptoFunctionService
+    );
+    this.vaultFilterService = new VaultFilterService(
+      this.stateService,
+      this.organizationService,
+      this.folderService,
+      this.cipherService,
+      this.collectionService,
+      this.policyService
     );
 
     const vaultTimeoutServiceCallbacks = {
@@ -584,6 +595,7 @@ export default class MainBackground {
       this.passwordGenerationService.clear(userId),
       this.vaultTimeoutService.clear(userId),
       this.keyConnectorService.clear(),
+      this.vaultFilterService.clear(),
     ]);
 
     await this.stateService.clean({ userId: userId });
