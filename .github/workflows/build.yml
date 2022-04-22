@@ -12,7 +12,7 @@ on:
 
 defaults:
   run:
-    working-directory: ./browser
+    working-directory: ./apps/browser
 
 jobs:
   cloc:
