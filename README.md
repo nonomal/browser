@@ -16,10 +16,22 @@
 
 This repository houses all Bitwarden client applications except the [Mobile application](https://github.com/bitwarden/mobile).
 
-For now please check the readmes for each application under `apps` for instructions on how to build the different applications.
+Please check the readmes for each application under `apps` for instructions on how to build the different applications.
 
 ## Related projects:
 
 * [bitwarden/server](https://github.com/bitwarden/server): The core infrastructure backend (API, database, Docker, etc).
 * [Mobile application](https://github.com/bitwarden/mobile): The mobile app vault (iOS and Android). 
 * [bitwarden/directory-connector](https://github.com/bitwarden/directory-connector): A tool for syncing a directory (AD, LDAP, Azure, G Suite, Okta) to an organization.
+
+# We're Hiring!
+
+Interested in contributing in a big way? Consider joining our team! We're hiring for many positions. Please take a look at our [Careers page](https://bitwarden.com/careers/) to see what opportunities are currently open as well as what it's like to work at Bitwarden.
+
+# Contribute
+
+Code contributions are welcome! Please commit any pull requests against the `master` branch. Learn more about how to contribute by reading the [`CONTRIBUTING.md`](CONTRIBUTING.md) file.
+
+Security audits and feedback are welcome. Please open an issue or email us privately if the report is sensitive in nature. You can read our security policy in the [`SECURITY.md`](SECURITY.md) file.
+
+
