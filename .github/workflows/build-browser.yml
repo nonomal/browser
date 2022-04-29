@@ -1,5 +1,5 @@
 ---
-name: Build
+name: Browser Build
 
 on:
   push:
@@ -7,12 +7,15 @@ on:
       - 'l10n_master'
     paths-ignore:
       - '.github/workflows/**'
+    paths:
+      - 'apps/browser'
   workflow_dispatch:
     inputs: {}
 
 defaults:
   run:
-    working-directory: ./apps/browser
+    shell: bash
+    working-directory: apps/browser
 
 jobs:
   cloc:

@@ -1,5 +1,5 @@
 ---
-name: Release
+name: Browser Release
 
 on:
   workflow_dispatch:
@@ -102,7 +102,7 @@ jobs:
       - name: Download latest RC build artifacts
         uses: bitwarden/gh-actions/download-artifacts@c1fa8e09871a860862d6bbe36184b06d2c7e35a8
         with:
-          workflow: build.yml
+          workflow: build-browser.yml
           workflow_conclusion: success
           branch: ${{ needs.setup.outputs.branch-name }}
           artifacts: 'browser-source-*.zip,
