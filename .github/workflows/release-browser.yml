@@ -1,5 +1,5 @@
 ---
-name: Browser Release
+name: Release Browser
 
 on:
   workflow_dispatch:
