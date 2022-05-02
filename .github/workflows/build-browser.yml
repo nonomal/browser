@@ -30,6 +30,7 @@ jobs:
         run: |
           sudo apt update
           sudo apt -y install cloc
+          
       - name: Print lines of code
         run: cloc --include-lang TypeScript,JavaScript,HTML,Sass,CSS --vcs git
 
